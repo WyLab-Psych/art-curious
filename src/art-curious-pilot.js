@@ -10,9 +10,16 @@ import { initJsPsych } from 'jspsych';
 import 'jspsych/css/jspsych.css';
 import './custom.css';
 
+const task_stimuli = stimuli.map((stimulus) => ({
+  ...stimulus,
+  painting_image: new URL(stimulus.painting_image, import.meta.url).href,
+  photograph_image: new URL(stimulus.photograph_image, import.meta.url).href
+}));
+
 // Import core jsPsych plugins
 import jsPsychFullscreen from '@jspsych/plugin-fullscreen';
 import jsPsychWyLabSurvey from './plugins/plugin-wylab-survey';
+import jsPsychImageButtonResponse from './plugins/plugin-image-button-response';
 
 // Import officially contributed jsPsych plugins
 import jsPsychPipe from '@jspsych-contrib/plugin-pipe';
@@ -129,7 +136,7 @@ const block_consent_form = {
       <h3><i class="fa fa-2xs fa-chevron-circle-down"></i>&nbsp;<strong>Privacy, confidentiality, and data security</strong></h3>
       <p class="indented align-left">
         You will not be asked to provide information that could be used to identify you personally. 
-        We anticipate that your participation in this survey presents no greater risk than everyday use of the Internet.<br>
+        Please note that the survey(s) are being conducted with the help of JsPsych, an organization not affiliated with Cornell and with its own privacy and security policies that you can find at its website. We anticipate that your participation in this survey presents no greater risk than everyday use of the Internet.<br>
       </p>
     </section>
 
@@ -214,31 +221,24 @@ timeline.push(block_consent_form);
 // ---------------- PAGE 3 ---------------- //
 const instruction_pages = [
   // 1. Introduction
-  `<p class="align-left" style="margin-bottom: 1em;">Welcome! Thank you for agreeing to participate 🙂</p>
+  `<p class="align-left" style="margin-bottom: 1em;">Welcome to our study!</p>
   
   <p class="align-left">
-    In this study, we are interested in understanding how you think and feel about <strong>moral agents</strong>.
+    In this study, you will receive 20 pairs of one painting and one photo that share the same content.
   </p>`,
 
   // 2. Task Overview
   `<p class="align-left" style="margin-bottom: 1em;">
-    On each trial, you will read a brief description of someone and then answer questions about them.
+    The paintings are a selection of artworks displayed in an art gallery. The photos have been collected from the news media. The pairs of paintings and photos depict the same content. 
+  </p>
+  <p class="align-left" style="margin-bottom: 1em;">
+    Please note that some descriptions include potentially disturbing content, including violence, sexual assault, or other sensitive topics.
   </p>
   <p class="align-left">
-    Please note that some descriptions include potentially disturbing content, including violence, sexual assault, or other sensitive topics.
+    Once you make your choice, you will be presented with whichever image you choose (i.e., if you choose to see the photo, you will be presented with the photo). There are no right or wrong answers, we are interested in your personal choice.
   </p>`,
 
-  // 3. Source Credibility
-  `<p class="align-left">
-    We selected <strong>real but mostly unknown</strong> people for you to rate using information collected from a variety of sources.
-  </p>`,
-
-  // 4. Study Design
-  `<p class="align-left">
-    You will be asked to answer questions about a total of <strong>10 people.</strong> Please read each description carefully, and answer as honestly as possible.
-  </p>`,
-
-  // 5. Advance
+  // 3. Advance
   `<p class="align-left">
     When you are ready to begin, please click the <strong style="color: #0B6ED0;">Next Page</strong> button to advance!
   </p>`
@@ -300,14 +300,14 @@ const block_comprehension_check = {
       format: { 
         type: 'radio',
         mc_options: [
-          "Read descriptions of historical figures and answer questions about them",
-          "Watch videos and answer questions about them",
-          "Complete puzzles and answer questions about them"
+          "Read descriptions and decide whether you'd like to view paintings or photos",
+          "Watch videos and decide whether you'd like to continue watching",
+          "Complete puzzles and decide whether you'd like to switch or keep playing"
         ],
       },
       requirements: {
         type: 'comprehension',
-        correct_answer: 'Read descriptions of historical figures and answer questions about them',
+        correct_answer: 'Read descriptions and decide whether you\'d like to view paintings or photos',
       }
     }
   ],
@@ -316,161 +316,139 @@ const block_comprehension_check = {
 timeline.push(block_comprehension_check);
 
 // ---------------- PAGE 5 ---------------- //
-// NORMING TASK
-const main_task_stimuli = stimuli
+// MAIN TASK: PAINTING VS PHOTOGRAPH CHOICE
+// Create trials for each stimulus
+const choice_trials = task_stimuli.map((stimulus, index) => {
+  return {
+    trial_number: index + 1,
+    stimulus: stimulus
+  };
+});
 
-const moral_pool = main_task_stimuli.filter(s => s.morality === 'moral');
-const immoral_pool = main_task_stimuli.filter(s => s.morality === 'immoral');
-
-const selected_moral = jsPsych.randomization.sampleWithoutReplacement(moral_pool, 5);
-const selected_immoral = jsPsych.randomization.sampleWithoutReplacement(immoral_pool, 5);
-
-// Combine and shuffle for the individual participant
-const participant_stimuli = jsPsych.randomization.shuffle([...selected_moral, ...selected_immoral]);
-let norming_trial_count = 0; // Initialize at 0
-
-const page_norming = {
+// Page 1: Choice between painting and photograph
+const page_choice = {
   type: jsPsychWyLabSurvey,
-  preamble: jsPsych.timelineVariable('prompt'),
+  preamble: jsPsych.timelineVariable('preamble_html'),
   questions: [
     {
-      name: "familiarity_binary",
-      prompt: "Have you ever heard of this person?",
+      name: 'art_choice',
+      prompt: 'Which would you prefer to view?',
       format: {
         type: 'radio',
-        mc_orientation: 'horizontal'
-      },
-      options: ["Yes", "No"],
-      requirements: { type: 'request' }
-    },
-    {
-      name: "morality",
-      prompt: "How <strong>morally good or morally bad</strong> do you consider this person to be?",
-      format: {
-        type: 'slider',
-        slider_direction: "bipolar",
-        slider_starting_value: 50,
-        slider_range: [0, 100],
-        slider_color_scheme: "orange-purple",
-        slider_anchors: {
-          left: 'Extremely morally bad', 
-          center: 'Neutral',
-          right: 'Extremely morally good'
-        },
+        mc_orientation: 'horizontal',
+        mc_options: ['Painting', 'Photograph']
       },
       requirements: { type: 'request' }
-    },
-    {
-      name: "familiarity",
-      prompt: "How <strong>much do you know</strong> about this person?",
-      format: {
-        type: 'slider',
-        slider_direction: "unipolar",
-        slider_color_scheme: "purple",
-        slider_starting_value: 0,
-        slider_range: [0, 100],
-        slider_anchors: {
-          left: 'Nothing at all',
-          right: 'A lot'
-        },
-      },
-      requirements: { type: 'request' }
-    },
-    {
-      name: "uncertainty",
-      prompt: "How <strong>certain</strong> are you about what you will read next about this person?",
-      format: {
-        type: 'slider',
-        slider_direction: "unipolar",
-        slider_color_scheme: "purple",
-        slider_starting_value: 0,
-        slider_range: [0, 100],
-        slider_anchors: {
-          left: 'Not at all certain',
-          right: 'Extremely certain'
-        },
-      },
-      requirements: { type: 'request' }
-    },
-    {
-      name: "typicality",
-      prompt: "How <strong>typical</strong> do you consider this person to be?",
-      format: {
-        type: 'slider',
-        slider_direction: "unipolar",
-        slider_color_scheme: "purple",
-        slider_starting_value: 0,
-        slider_range: [0, 100],
-        slider_anchors: {
-          left: 'Not at all typical',
-          right: 'Extremely typical'
-        },
-      },
-      requirements: { type: 'request' }
-    },
-    {
-      name: "valence",
-      prompt: "How <strong>positively or negatively</strong> do you feel about this person?",
-      format: {
-        type: 'slider',
-        slider_direction: "bipolar",
-        slider_color_scheme: "orange-purple",
-        slider_starting_value: 50,
-        slider_range: [0, 100],
-        slider_anchors: {
-          left: 'Extremely negative', 
-          center: 'Neutral',
-          right: 'Extremely positive'
-        }
-      },
-      requirements: { type: 'request' }
-    },
+    }
   ],
   button_label: 'Next Page',
   data: {
-    stimulus_name: jsPsych.timelineVariable('target_name'),
-    stimulus_morality: jsPsych.timelineVariable('target_morality')
+    scenario_name: jsPsych.timelineVariable('scenario_name'),
+    painting_image: jsPsych.timelineVariable('painting_image'),
+    photograph_image: jsPsych.timelineVariable('photograph_image')
   },
   on_finish: function(data) {
-    norming_trial_count++;
-    data.norming_trial_number = norming_trial_count;
-    data.target_name = data.stimulus_name;
-    data.target_morality = data.stimulus_morality;
-    
-    data.familiarity_binary = data.response['familiarity_binary'];
-    data.morality = data.response['morality'];
-    data.familiarity = data.response['familiarity'];
-    data.uncertainty = data.response['uncertainty'];
-    data.typicality = data.response['typicality'];
-    data.valence = data.response['valence'];
+    data.choice = data.response['art_choice'];
   }
 };
 
-const block_norming = {
-  timeline: [page_norming],
-  timeline_variables: participant_stimuli.map(stimulus => ({
-    prompt: `
-      <p>Please read about the person below and answer the following questions:</p>
-      <div class="norming-card aat-card active ${stimulus.morality === 'moral' ? 'norming-card-moral' : 'norming-card-immoral'}">
-        <div style="padding: 0 20px 0;">  
-          <h2><strong>${stimulus.name}</strong></h2>
-          <p>${stimulus.intro}</p>
+// Page 2: Display the selected image
+const page_image_display = {
+  type: jsPsychImageButtonResponse,
+  stimulus: '',
+  choices: ['Continue'],
+  data: {
+    trial_type: 'image_display'
+  },
+  on_start: function(trial) {
+    try {
+      console.log('=== Starting image display trial ===');
+      console.log('All trials so far:', jsPsych.data.get().values());
+      
+      // Find the last trial with painting_image and photograph_image
+      const all_trials = jsPsych.data.get().values();
+      let last_survey = null;
+      
+      for (let i = all_trials.length - 1; i >= 0; i--) {
+        if (all_trials[i].painting_image && all_trials[i].photograph_image) {
+          last_survey = all_trials[i];
+          break;
+        }
+      }
+      
+      console.log('Last survey found:', last_survey);
+      
+      if (!last_survey) {
+        trial.stimulus = `<div style="text-align: center; padding: 40px;"><p>Error: Could not find previous survey response</p></div>`;
+        return;
+      }
+      
+      const choice = last_survey.choice;
+      const painting_image = last_survey.painting_image;
+      const photograph_image = last_survey.photograph_image;
+      
+      console.log('Choice:', choice);
+      console.log('Painting image:', painting_image);
+      console.log('Photograph image:', photograph_image);
+      
+      const image_path = choice === 'Painting' ? painting_image : photograph_image;
+      
+      console.log('Selected image path:', image_path);
+      
+      trial.stimulus = `
+        <div style="text-align: center;">
+          <img src="${image_path}" style="max-width: 90%; max-height: 70vh; object-fit: contain; margin-bottom: 20px;" onload="console.log('Image loaded successfully')" onerror="console.log('Error loading image')">
         </div>
-        <div class="faded-text">
-          <p>${stimulus.description}</p>
-          <p>${stimulus.motive}</p>
+      `;
+    } catch (e) {
+      console.error('Error in on_start:', e);
+      trial.stimulus = `<div style="text-align: center; padding: 40px;"><p>Error: ${e.message}</p></div>`;
+    }
+  },
+  on_finish: function(data) {
+    const all_trials = jsPsych.data.get().values();
+    let last_survey = null;
+    
+    for (let i = all_trials.length - 1; i >= 0; i--) {
+      if (all_trials[i].painting_image && all_trials[i].photograph_image) {
+        last_survey = all_trials[i];
+        break;
+      }
+    }
+    
+    if (last_survey) {
+      data.choice = last_survey.choice;
+      data.scenario_name = last_survey.scenario_name;
+    }
+  }
+};
+
+// Timeline for each trial
+const trial_timeline = [page_choice, page_image_display];
+
+const block_main_task = {
+  timeline: trial_timeline,
+  timeline_variables: choice_trials.map(trial => ({
+    trial_number: trial.trial_number,
+    scenario_name: trial.stimulus.scenario_name,
+    painting_image: trial.stimulus.painting_image,
+    photograph_image: trial.stimulus.photograph_image,
+    preamble_html: `
+      <main>
+        <div class="jspsych-instructions">
+          <p>Please decide whether you want to view a photo or painting of the following scenario:</p>
+          <p style="font-size: 14pt; font-weight: bold; margin-top: 20px;">${trial.stimulus.scenario_name}</p>
         </div>
-      </div>`,
-    target_name: stimulus.name,
-    target_morality: stimulus.morality
+      </main>`
   })),
   randomize_order: true
 };
-timeline.push(block_norming);
+
+timeline.push(block_main_task);
 
 // ---------------- PAGE 5 ---------------- //
-// DEMOGRAPHICS
-const block_fiction_question = {
+// SELF-REPORT SCALES - MCS (Macabre Curiosity Scale)
+const block_mcs_questions = {
   type: jsPsychWyLabSurvey,
   preamble: `
     <p class="jspsych-survey-multi-choice-preamble">
@@ -478,12 +456,52 @@ const block_fiction_question = {
     </p>`,
   questions: [
     {
-      prompt: "How much <strong>popular fiction (TV shows, movies, books, etc.)</strong> do you consume?",
-      name: 'fiction_consumption',
+      prompt: "I am interested in seeing how limb amputation works.",
+      name: 'mcs_1',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["1<br>None", "2", "3", "4", "5", "6", "7<br>A great deal"],
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I would like to see how bodies are prepared for funerals.",
+      name: 'mcs_2',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I am curious about crime and enjoy reading detailed news accounts about murders and other violent crimes.",
+      name: 'mcs_3',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "My favorite part of a crime show is learning about why the killer did what he did.",
+      name: 'mcs_4',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I prefer violent movies and TV shows to be uncensored.",
+      name: 'mcs_5',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
       },
       requirements: { type: 'request' }
     },
@@ -491,12 +509,293 @@ const block_fiction_question = {
   button_label: 'Next Page',
   on_finish: function(data) {
     const resp = data.response;
-    data.fiction_consumption = resp['fiction_consumption'] || '';
+    jsPsych.data.addProperties({
+      mcs_1: resp['mcs_1'] || '',
+      mcs_2: resp['mcs_2'] || '',
+      mcs_3: resp['mcs_3'] || '',
+      mcs_4: resp['mcs_4'] || '',
+      mcs_5: resp['mcs_5'] || '',
+    });
   }
 };
-timeline.push(block_fiction_question);
+timeline.push(block_mcs_questions);
 
 // ---------------- PAGE 6 ---------------- //
+// SELF-REPORT SCALES - NFC-6 (Need for Cognition)
+const block_nfc_questions = {
+  type: jsPsychWyLabSurvey,
+  preamble: `
+    <p class="jspsych-survey-multi-choice-preamble">
+      Using the scales provided, please respond to each question about you as an individual:
+    </p>`,
+  questions: [
+    {
+      prompt: "I would prefer complex to simple problems.",
+      name: 'nfc_1',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I find satisfaction in deliberating hard and for long hours.",
+      name: 'nfc_2',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I prefer to think about small, daily projects to long-term ones.",
+      name: 'nfc_3',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "The notion of thinking abstractly is appealing to me.",
+      name: 'nfc_4',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I like tasks that require little thought once I've learned them.",
+      name: 'nfc_5',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I usually end up deliberating about issues even when they do not affect me personally.",
+      name: 'nfc_6',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+      },
+      requirements: { type: 'request' }
+    },
+  ],
+  button_label: 'Next Page',
+  on_finish: function(data) {
+    const resp = data.response;
+    jsPsych.data.addProperties({
+      nfc_1: resp['nfc_1'] || '',
+      nfc_2: resp['nfc_2'] || '',
+      nfc_3: resp['nfc_3'] || '',
+      nfc_4: resp['nfc_4'] || '',
+      nfc_5: resp['nfc_5'] || '',
+      nfc_6: resp['nfc_6'] || '',
+    });
+  }
+};
+timeline.push(block_nfc_questions);
+
+// ---------------- PAGE 7 ---------------- //
+// SELF-REPORT SCALES - Empathic Concern
+const block_ec_questions = {
+  type: jsPsychWyLabSurvey,
+  preamble: `
+    <p class="jspsych-survey-multi-choice-preamble">
+      Using the scales provided, please respond to each question about you as an individual:
+    </p>`,
+  questions: [
+    {
+      prompt: "I often have tender, concerned feelings for people less fortunate than me.",
+      name: 'ec_1',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "Sometimes I don't feel very sorry for other people when they are having problems.",
+      name: 'ec_2',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "When I see someone being taken advantage of, I feel kind of protective towards them.",
+      name: 'ec_3',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "Other people's misfortunes do not usually disturb me a great deal.",
+      name: 'ec_4',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "When I see someone being treated unfairly, I sometimes don't feel very much pity for them.",
+      name: 'ec_5',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I am often quite touched by things that I see happen.",
+      name: 'ec_6',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I would describe myself as a pretty soft-hearted person.",
+      name: 'ec_7',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+  ],
+  button_label: 'Next Page',
+  on_finish: function(data) {
+    const resp = data.response;
+    jsPsych.data.addProperties({
+      ec_1: resp['ec_1'] || '',
+      ec_2: resp['ec_2'] || '',
+      ec_3: resp['ec_3'] || '',
+      ec_4: resp['ec_4'] || '',
+      ec_5: resp['ec_5'] || '',
+      ec_6: resp['ec_6'] || '',
+      ec_7: resp['ec_7'] || '',
+    });
+  }
+};
+timeline.push(block_ec_questions);
+
+// ---------------- PAGE 8 ---------------- //
+// SELF-REPORT SCALES - Personal Distress
+const block_pd_questions = {
+  type: jsPsychWyLabSurvey,
+  preamble: `
+    <p class="jspsych-survey-multi-choice-preamble">
+      Using the scales provided, please respond to each question about you as an individual:
+    </p>`,
+  questions: [
+    {
+      prompt: "In emergency situations, I feel apprehensive and ill-at-ease.",
+      name: 'pd_1',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I sometimes feel helpless when I am in the middle of a very emotional situation.",
+      name: 'pd_2',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "When I see someone get hurt, I tend to remain calm.",
+      name: 'pd_3',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "Being in a tense emotional situation scares me.",
+      name: 'pd_4',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I am usually pretty effective in dealing with emergencies.",
+      name: 'pd_5',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "I tend to lose control during emergencies.",
+      name: 'pd_6',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      prompt: "When I see someone who badly needs help in an emergency, I go to pieces.",
+      name: 'pd_7',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+      },
+      requirements: { type: 'request' }
+    },
+  ],
+  button_label: 'Next Page',
+  on_finish: function(data) {
+    const resp = data.response;
+    jsPsych.data.addProperties({
+      pd_1: resp['pd_1'] || '',
+      pd_2: resp['pd_2'] || '',
+      pd_3: resp['pd_3'] || '',
+      pd_4: resp['pd_4'] || '',
+      pd_5: resp['pd_5'] || '',
+      pd_6: resp['pd_6'] || '',
+      pd_7: resp['pd_7'] || '',
+    });
+  }
+};
+timeline.push(block_pd_questions);
 // DEMOGRAPHICS
 const block_demographics_questions = {
   type: jsPsychWyLabSurvey,
@@ -594,6 +893,8 @@ const block_demographics_questions = {
 };
 timeline.push(block_demographics_questions);
 
+// ---------------- PAGE 10 ---------------- //
+// ATTENTION CHECK
 const block_attention = {
   type: jsPsychWyLabSurvey,
   preamble: `
@@ -643,8 +944,9 @@ const block_attention = {
   }
 };
 timeline.push(block_attention);
-  
 
+// ---------------- PAGE 11 ---------------- //
+// DEBRIEFING
 const block_debrief = {
   type: jsPsychWyLabSurvey,
   preamble: `
@@ -684,7 +986,7 @@ const block_debrief = {
 };
 timeline.push(block_debrief);
 
-// ---------------- PAGE 7 ---------------- //
+// ---------------- PAGE 12 ---------------- //
 // COMMENTS AND FEEDBACK
 const block_feedback = {
   type: jsPsychWyLabSurvey,
