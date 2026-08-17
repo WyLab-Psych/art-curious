@@ -1,3 +1,9 @@
+// Import FontAwesome icons
+import { library, dom } from '@fortawesome/fontawesome-svg-core'
+import { faXmark, faEnvelope, faPhone, faMousePointer, faArrowUpRightFromSquare, faCircleCheck, faCircleXmark, faChevronCircleRight, faChevronCircleDown, faArrowTurnUp, faArrowRight, faCircleArrowRight, faTriangleExclamation, faArrowRightToBracket, faStopwatch, faRotateRight} from '@fortawesome/free-solid-svg-icons';
+library.add(faXmark, faEnvelope, faPhone, faMousePointer, faArrowUpRightFromSquare, faCircleCheck, faCircleXmark, faChevronCircleRight, faChevronCircleDown, faArrowTurnUp, faArrowRight, faCircleArrowRight, faTriangleExclamation, faArrowRightToBracket, faStopwatch, faRotateRight);
+dom.watch();
+
 // Import jsPsych core and CSS
 import stimuli from './stimuli/norming-targets.json' with { type: 'json' }
 import { initJsPsych } from 'jspsych';
