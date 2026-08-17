@@ -12,8 +12,8 @@ import './custom.css';
 
 const task_stimuli = stimuli.map((stimulus) => ({
   ...stimulus,
-  painting_image: new URL(stimulus.painting_image, import.meta.url).href,
-  photograph_image: new URL(stimulus.photograph_image, import.meta.url).href
+  painting_image: import.meta.env.BASE_URL + stimulus.painting_image.replace('./', ''),
+  photograph_image: import.meta.env.BASE_URL + stimulus.photograph_image.replace('./', '')
 }));
 
 // Import core jsPsych plugins
