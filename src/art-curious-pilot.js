@@ -224,7 +224,7 @@ const instruction_pages = [
   `<p class="align-left" style="margin-bottom: 1em;">Welcome to our study!</p>
   
   <p class="align-left">
-    In this study, you will receive 5 pairs of one painting and one photo that share the same content.
+    In this study, you will receive 4 pairs of one painting and one photo that share the same content.
   </p>`,
 
   // 2. Task Overview
@@ -367,7 +367,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -385,7 +385,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -403,7 +403,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -421,7 +421,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -439,7 +439,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -457,7 +457,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -475,7 +475,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -493,7 +493,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -511,7 +511,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -529,7 +529,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -547,7 +547,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -565,7 +565,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -583,7 +583,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -601,7 +601,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -619,7 +619,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -637,7 +637,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -655,7 +655,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -673,7 +673,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -691,7 +691,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -709,7 +709,7 @@ const page_image_display = {
       'Strongly disagree',
       'Moderately disagree',
       'Slightly disagree',
-      'Neither agree nor disagree',
+      'Neutral',
       'Slightly agree',
       'Moderately agree',
       'Strongly agree'
@@ -812,7 +812,15 @@ const block_mcs_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -822,7 +830,15 @@ const block_mcs_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -832,7 +848,15 @@ const block_mcs_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -842,7 +866,15 @@ const block_mcs_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -852,7 +884,15 @@ const block_mcs_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -886,7 +926,15 @@ const block_nfc_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -896,7 +944,15 @@ const block_nfc_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -906,7 +962,15 @@ const block_nfc_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -916,7 +980,15 @@ const block_nfc_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -926,7 +998,15 @@ const block_nfc_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -936,7 +1016,15 @@ const block_nfc_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -971,7 +1059,15 @@ const block_ec_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -981,7 +1077,15 @@ const block_ec_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -991,7 +1095,15 @@ const block_ec_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1001,7 +1113,15 @@ const block_ec_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1011,7 +1131,15 @@ const block_ec_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1021,7 +1149,15 @@ const block_ec_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1031,7 +1167,15 @@ const block_ec_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1067,7 +1211,15 @@ const block_pd_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1077,7 +1229,15 @@ const block_pd_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1087,7 +1247,15 @@ const block_pd_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1097,7 +1265,15 @@ const block_pd_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1107,7 +1283,15 @@ const block_pd_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1117,7 +1301,15 @@ const block_pd_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
@@ -1127,7 +1319,15 @@ const block_pd_questions = {
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
-        mc_options: ["Does not describe me well", "2", "3", "4", "Describes me very well"],
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neutral',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ],
       },
       requirements: { type: 'request' }
     },
