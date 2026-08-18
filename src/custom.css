@@ -163,6 +163,65 @@ a {
   font-size: 12pt;
 }
 
+/* Likert Scale Styling */
+.jspsych-survey-multi-choice-question input[type="radio"] {
+  margin: 0 15px 0 15px;
+}
+
+.jspsych-survey-multi-choice-option-label {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 8px;
+  min-width: 45px;
+}
+
+/* Add labels below Likert scale numbers */
+.jspsych-survey-multi-choice-option-label::after {
+  content: attr(data-label);
+  font-size: 9pt;
+  color: #666;
+  margin-top: 4px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Style the radio button wrapper for proper spacing */
+.jspsych-survey-multi-choice input[type="radio"] + label {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 8px;
+  cursor: pointer;
+  font-size: 12pt;
+  position: relative;
+}
+
+/* Add specific labels for endpoints */
+.jspsych-survey-multi-choice-question input[type="radio"]:nth-of-type(1) + label::after {
+  content: "Disagree";
+  display: block;
+  font-size: 9pt;
+  color: #666;
+  margin-top: 4px;
+}
+
+.jspsych-survey-multi-choice-question input[type="radio"]:nth-of-type(4) + label::after {
+  content: "Neutral";
+  display: block;
+  font-size: 9pt;
+  color: #666;
+  margin-top: 4px;
+}
+
+.jspsych-survey-multi-choice-question input[type="radio"]:nth-of-type(7) + label::after {
+  content: "Agree";
+  display: block;
+  font-size: 9pt;
+  color: #666;
+  margin-top: 4px;
+}
+
 
 blockquote {
   text-align: left;

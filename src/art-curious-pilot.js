@@ -224,7 +224,7 @@ const instruction_pages = [
   `<p class="align-left" style="margin-bottom: 1em;">Welcome to our study!</p>
   
   <p class="align-left">
-    In this study, you will receive 20 pairs of one painting and one photo that share the same content.
+    In this study, you will receive 5 pairs of one painting and one photo that share the same content.
   </p>`,
 
   // 2. Task Overview
@@ -352,19 +352,378 @@ const page_choice = {
   }
 };
 
-// Page 2: Display the selected image
+// Page 2: Display the selected image with survey questions below
 const page_image_display = {
-  type: jsPsychImageButtonResponse,
-  stimulus: '',
-  choices: ['Continue'],
+  type: jsPsychWyLabSurvey,
+  preamble: '',
+  questions: [
+    {
+      name: 'image_positive',
+      prompt: 'This image is positive',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'image_negative',
+      prompt: 'This image is negative',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'emotionally_aroused',
+      prompt: 'This image makes me feel emotionally aroused',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'feel_upset',
+      prompt: 'This image makes me feel upset',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'feel_distressed',
+      prompt: 'This image makes me feel distressed',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'feel_worried',
+      prompt: 'This image makes me feel worried',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'feel_moved',
+      prompt: 'This image makes me feel moved',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'feel_sympathetic',
+      prompt: 'This image makes me feel sympathetic',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'emotionally_drained',
+      prompt: 'This image makes me feel emotionally drained',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'realistic_perspective',
+      prompt: 'This image gives me a realistic perspective',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'aesthetically_pleasing',
+      prompt: 'This image is aesthetically pleasing',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'reflect_moral_values',
+      prompt: 'This image makes me reflect on my moral values',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'feel_awe',
+      prompt: 'This image makes me feel awe',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'curious_learn_more',
+      prompt: 'This image makes me curious to learn more about this situation',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'motivate_do_more',
+      prompt: 'This image motivates me to do more about this situation',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'imagine_situation',
+      prompt: 'This image helps me imagine what this situation is really like',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'want_see_more',
+      prompt: 'This image makes me want to see more images like this',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'shows_actual_situation',
+      prompt: 'This image shows me what this situation actually looks like',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'understand_scale',
+      prompt: 'This image helps me understand the true scale of this situation',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    },
+    {
+      name: 'looking_other_way',
+      prompt: 'This image makes me feel like I am looking the other way',
+      format: {
+        type: 'radio',
+        mc_orientation: 'horizontal',
+        mc_options: [
+      'Strongly disagree',
+      'Moderately disagree',
+      'Slightly disagree',
+      'Neither agree nor disagree',
+      'Slightly agree',
+      'Moderately agree',
+      'Strongly agree'
+    ]
+      },
+      requirements: { type: 'request' }
+    }
+  ],
+  button_label: 'Next',
   data: {
-    trial_type: 'image_display'
+    trial_type: 'image_display_survey'
   },
   on_start: function(trial) {
     try {
-      console.log('=== Starting image display trial ===');
-      console.log('All trials so far:', jsPsych.data.get().values());
-      
       // Find the last trial with painting_image and photograph_image
       const all_trials = jsPsych.data.get().values();
       let last_survey = null;
@@ -376,33 +735,25 @@ const page_image_display = {
         }
       }
       
-      console.log('Last survey found:', last_survey);
-      
       if (!last_survey) {
-        trial.stimulus = `<div style="text-align: center; padding: 40px;"><p>Error: Could not find previous survey response</p></div>`;
+        trial.preamble = `<div style="text-align: center; padding: 40px;"><p>Error: Could not find previous survey response</p></div>`;
         return;
       }
       
       const choice = last_survey.choice;
       const painting_image = last_survey.painting_image;
       const photograph_image = last_survey.photograph_image;
-      
-      console.log('Choice:', choice);
-      console.log('Painting image:', painting_image);
-      console.log('Photograph image:', photograph_image);
-      
       const image_path = choice === 'Painting' ? painting_image : photograph_image;
       
-      console.log('Selected image path:', image_path);
-      
-      trial.stimulus = `
-        <div style="text-align: center;">
-          <img src="${image_path}" style="max-width: 90%; max-height: 70vh; object-fit: contain; margin-bottom: 20px;" onload="console.log('Image loaded successfully')" onerror="console.log('Error loading image')">
+      trial.preamble = `
+        <div style="text-align: center; margin-bottom: 40px;">
+          <img src="${image_path}" style="max-width: 90%; max-height: 50vh; object-fit: contain; margin-bottom: 20px;">
+          <p style="font-size: 14pt; color: #666; margin-top: 20px;">Please rate your agreement with each statement below:</p>
         </div>
       `;
     } catch (e) {
       console.error('Error in on_start:', e);
-      trial.stimulus = `<div style="text-align: center; padding: 40px;"><p>Error: ${e.message}</p></div>`;
+      trial.preamble = `<div style="text-align: center; padding: 40px;"><p>Error: ${e.message}</p></div>`;
     }
   },
   on_finish: function(data) {
