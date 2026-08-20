@@ -359,7 +359,7 @@ const page_image_display = {
   questions: [
     {
       name: 'image_positive',
-      prompt: 'This image is positive',
+      prompt: 'This image is <strong><u>positive</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -377,7 +377,7 @@ const page_image_display = {
     },
     {
       name: 'image_negative',
-      prompt: 'This image is negative',
+      prompt: 'This image is <strong><u>negative</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -395,7 +395,7 @@ const page_image_display = {
     },
     {
       name: 'emotionally_aroused',
-      prompt: 'This image makes me feel emotionally aroused',
+      prompt: 'This image makes me feel <strong><u>emotionally aroused</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -413,7 +413,7 @@ const page_image_display = {
     },
     {
       name: 'feel_upset',
-      prompt: 'This image makes me feel upset',
+      prompt: 'This image makes me feel <strong><u>upset</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -431,7 +431,7 @@ const page_image_display = {
     },
     {
       name: 'feel_distressed',
-      prompt: 'This image makes me feel distressed',
+      prompt: 'This image makes me feel <strong><u>distressed</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -449,7 +449,7 @@ const page_image_display = {
     },
     {
       name: 'feel_worried',
-      prompt: 'This image makes me feel worried',
+      prompt: 'This image makes me feel <strong><u>worried</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -467,7 +467,7 @@ const page_image_display = {
     },
     {
       name: 'feel_moved',
-      prompt: 'This image makes me feel moved',
+      prompt: 'This image makes me feel <strong><u>moved</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -485,7 +485,7 @@ const page_image_display = {
     },
     {
       name: 'feel_sympathetic',
-      prompt: 'This image makes me feel sympathetic',
+      prompt: 'This image makes me feel <strong><u>sympathetic</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -503,7 +503,7 @@ const page_image_display = {
     },
     {
       name: 'emotionally_drained',
-      prompt: 'This image makes me feel emotionally drained',
+      prompt: 'This image makes me feel <strong><u>emotionally drained</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -521,7 +521,7 @@ const page_image_display = {
     },
     {
       name: 'realistic_perspective',
-      prompt: 'This image gives me a realistic perspective',
+      prompt: 'This image gives me a <strong><u>realistic perspective</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -539,7 +539,7 @@ const page_image_display = {
     },
     {
       name: 'aesthetically_pleasing',
-      prompt: 'This image is aesthetically pleasing',
+      prompt: 'This image is <strong><u>aesthetically pleasing</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -557,7 +557,7 @@ const page_image_display = {
     },
     {
       name: 'reflect_moral_values',
-      prompt: 'This image makes me reflect on my moral values',
+      prompt: 'This image makes me <strong><u>reflect on my moral values</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -575,7 +575,7 @@ const page_image_display = {
     },
     {
       name: 'feel_awe',
-      prompt: 'This image makes me feel awe',
+      prompt: 'This image makes me feel <strong><u>awe</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -593,7 +593,7 @@ const page_image_display = {
     },
     {
       name: 'curious_learn_more',
-      prompt: 'This image makes me curious to learn more about this situation',
+      prompt: 'This image makes me <strong><u>curious to learn more about this situation</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -611,7 +611,7 @@ const page_image_display = {
     },
     {
       name: 'motivate_do_more',
-      prompt: 'This image motivates me to do more about this situation',
+      prompt: 'This image <strong><u>motivates me to do more about this situation</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -629,7 +629,7 @@ const page_image_display = {
     },
     {
       name: 'imagine_situation',
-      prompt: 'This image helps me imagine what this situation is really like',
+      prompt: 'This image <strong><u>helps me imagine what this situation is really like</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -647,7 +647,7 @@ const page_image_display = {
     },
     {
       name: 'want_see_more',
-      prompt: 'This image makes me want to see more images like this',
+      prompt: 'This image makes me <strong><u>want to see more images like this</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -665,7 +665,7 @@ const page_image_display = {
     },
     {
       name: 'shows_actual_situation',
-      prompt: 'This image shows me what this situation actually looks like',
+      prompt: 'This image <strong><u>shows me what this situation actually looks like</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -683,7 +683,7 @@ const page_image_display = {
     },
     {
       name: 'understand_scale',
-      prompt: 'This image helps me understand the true scale of this situation',
+      prompt: 'This image <strong><u>helps me understand the true scale of this situation</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -701,7 +701,7 @@ const page_image_display = {
     },
     {
       name: 'looking_other_way',
-      prompt: 'This image makes me feel like I am looking the other way',
+      prompt: 'This image makes me feel <strong><u>like I am looking the other way</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
