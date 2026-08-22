@@ -1,26 +1,20 @@
 [
   {
     "scenario_id": 1,
-    "scenario_name": "Soldiers moving forward",
-    "painting_image": "./stimuli/images/soldier_painting.jpg",
-    "photograph_image": "./stimuli/images/soldier_photo.jpg"
+    "scenario_name": "Protest",
+    "painting_image": "./stimuli/images/protest painting.png",
+    "photograph_image": "./stimuli/images/protest photo.png"
   },
   {
     "scenario_id": 2,
-    "scenario_name": "Inside a prison cell",
-    "painting_image": "./stimuli/images/prison_painting.jpg",
-    "photograph_image": "./stimuli/images/prison_photo.jpg"
+    "scenario_name": "Animal Killing",
+    "painting_image": "./stimuli/images/animal killed painting.png",
+    "photograph_image": "./stimuli/images/animal killed photo.png"
   },
   {
     "scenario_id": 3,
-    "scenario_name": "Person in a hospital",
-    "painting_image": "./stimuli/images/hospital_painting.jpg",
-    "photograph_image": "./stimuli/images/hospital_photo.jpg"
-  },
-  {
-    "scenario_id": 4,
-    "scenario_name": "Person holding a gun",
-    "painting_image": "./stimuli/images/gun_painting.jpg",
-    "photograph_image": "./stimuli/images/gun_photo.jpg"
+    "scenario_name": "Litter in Water",
+    "painting_image": "./stimuli/images/litter water painting.png",
+    "photograph_image": "./stimuli/images/litter water photo.png"
   }
 ]

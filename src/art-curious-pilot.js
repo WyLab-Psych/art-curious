@@ -10,10 +10,16 @@ import { initJsPsych } from 'jspsych';
 import 'jspsych/css/jspsych.css';
 import './custom.css';
 
+const stimulus_image_urls = import.meta.glob('./stimuli/images/*', {
+  eager: true,
+  query: '?url',
+  import: 'default'
+});
+
 const task_stimuli = stimuli.map((stimulus) => ({
   ...stimulus,
-  painting_image: import.meta.env.BASE_URL + stimulus.painting_image.replace('./', ''),
-  photograph_image: import.meta.env.BASE_URL + stimulus.photograph_image.replace('./', '')
+  painting_image: stimulus_image_urls[stimulus.painting_image],
+  photograph_image: stimulus_image_urls[stimulus.photograph_image]
 }));
 
 // Import core jsPsych plugins
@@ -224,7 +230,7 @@ const instruction_pages = [
   `<p class="align-left" style="margin-bottom: 1em;">Welcome to our study!</p>
   
   <p class="align-left">
-    In this study, you will receive 4 pairs of one painting and one photo that share the same content.
+    In this study, you will receive 3 pairs of one painting and one photo that share the same content.
   </p>`,
 
   // 2. Task Overview
