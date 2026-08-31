@@ -1116,25 +1116,15 @@ label.jspsych-survey-html-form-checkbox-option-vertical.selected {
   padding-left: 15px;
 }
 
-/* Two-column layout ONLY for trials that contain a sticky image,
-   so the preamble column stretches to the same height as the
-   question column below it — giving the sticky image room to
-   stay stuck all the way through the question list. */
-.jspsych-content:has(.sticky-image-container) {
-  display: flex;
-  align-items: flex-start;
-  gap: 2em;
-  text-align: left;
-}
-
+/* ONLY for trials that contain a sticky image: "unwrap" the short
+   preamble div so its children (the image + intro text) become
+   direct children of .jspsych-content, the same tall container that
+   holds the question form. This keeps the single-column, image-on-top
+   layout, but lets the sticky image use the full trial height as its
+   containing block instead of being confined to the short preamble
+   div — so it stays stuck through the whole question list. */
 .jspsych-content:has(.sticky-image-container) .jspsych-survey-html-form-preamble {
-  flex: 0 0 40%;
-  align-self: stretch; /* match height of the form column */
-}
-
-.jspsych-content:has(.sticky-image-container) form.jspsych-survey-html-form {
-  flex: 1 1 auto;
-  min-width: 0;
+  display: contents;
 }
 
 /* Sticky Image Container */
