@@ -1115,3 +1115,27 @@ label.jspsych-survey-html-form-checkbox-option-vertical.selected {
   border-left: 3px solid #007bff; /* Optional: highlight the new part */
   padding-left: 15px;
 }
+
+/* Sticky Image Container */
+.sticky-image-container {
+  position: sticky;
+  top: 0;
+  text-align: center;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.sticky-image-container img {
+  max-width: 90%;
+  max-height: 50vh;
+  object-fit: contain;
+}
+
+.questions-container {
+  text-align: center;
+  margin-bottom: 40px;
+}
+}

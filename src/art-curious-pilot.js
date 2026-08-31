@@ -752,8 +752,10 @@ const page_image_display = {
       const image_path = choice === 'Painting' ? painting_image : photograph_image;
       
       trial.preamble = `
-        <div style="text-align: center; margin-bottom: 40px;">
-          <img src="${image_path}" style="max-width: 90%; max-height: 50vh; object-fit: contain; margin-bottom: 20px;">
+        <div class="sticky-image-container">
+          <img src="${image_path}" style="max-width: 90%; max-height: 50vh; object-fit: contain;">
+        </div>
+        <div class="questions-container">
           <p style="font-size: 14pt; color: #666; margin-top: 20px;">Please rate your agreement with each statement below:</p>
         </div>
       `;
