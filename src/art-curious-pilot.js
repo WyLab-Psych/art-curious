@@ -51,20 +51,22 @@ var jsPsych = initJsPsych({
 });
 
 // Set up filename for debugging
-const participant_id = jsPsych.randomization.randomID(10);
-const filename = `${participant_id}.csv`;
-const prolific_completion_code = "XXXXXXXX";  // TODO: Replace with your actual Prolific completion code
+// const participant_id = jsPsych.randomization.randomID(10);
+// const filename = `${participant_id}.csv`;
+const prolific_completion_code = "C18V04DD";  // TODO: Replace with your actual Prolific completion code
 
 // Set up filename for actual run
-// const participant_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
-// const study_id = jsPsych.data.getURLVariable('STUDY_ID');
-// const session_id = jsPsych.data.getURLVariable('SESSION_ID');
-// const filename = `${participant_id}` + "_" + `${study_id}` + "_" + `${session_id}.csv`;
-// jsPsych.data.addProperties({
-//   participant_id: participant_id,
-//   study_id: study_id,
-//   session_id: session_id
-// });
+const participant_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
+const study_id = jsPsych.data.getURLVariable('STUDY_ID');
+const session_id = jsPsych.data.getURLVariable('SESSION_ID');
+const filename = `${participant_id}` + "_" + `${study_id}` + "_" + `${session_id}.csv`;
+const subject_id = prolific_id ? prolific_id : `fallback_${jsPsych.randomization.randomID(10)}`;
+
+jsPsych.data.addProperties({
+participant_id: participant_id,
+study_id: study_id,
+session_id: session_id
+});
 
 // ---------------- PAGE 1 ---------------- //
 // ENTER FULLSCREEN
@@ -78,7 +80,7 @@ timeline.push(block_enter_fullscreen)
 
 // ---------------- PAGE 2 ---------------- //
 // CONSENT FORM
-const completion_time = 10;  // TODO: Replace with your actual study completion time (in minutes)
+const completion_time = 8;  // TODO: Replace with your actual study completion time (in minutes)
 
 const block_consent_form = {
   type: jsPsychWyLabSurvey,
@@ -230,12 +232,12 @@ const instruction_pages = [
   `<p class="align-left" style="margin-bottom: 1em;">Welcome to our study!</p>
   
   <p class="align-left">
-    In this study, you will receive 3 pairs of one painting and one photo that share the same content.
+    In this study, you will receive 3 pairs of images that share the same content: one painting and one photograph. 
   </p>`,
 
   // 2. Task Overview
   `<p class="align-left" style="margin-bottom: 1em;">
-    The paintings are a selection of artworks displayed in an art gallery. The photos have been collected from the news media. The pairs of paintings and photos depict the same content. 
+    The paintings are a selection of artworks displayed in an art gallery. The photos have been collected from the news media. These are real photographs and paintings; not AI-generated. The pairs of paintings and photos depict the same content. 
   </p>
   <p class="align-left" style="margin-bottom: 1em;">
     Please note that some descriptions include potentially disturbing content, including violence, sexual assault, or other sensitive topics.
@@ -707,7 +709,7 @@ const page_image_display = {
     },
     {
       name: 'looking_other_way',
-      prompt: 'This image makes me feel <strong><u>like I am looking the other way</u></strong>',
+      prompt: 'This image makes me feel <strong><u>like I am looking the other way instead of engaging with this issue</u></strong>',
       format: {
         type: 'radio',
         mc_orientation: 'horizontal',
@@ -1586,7 +1588,7 @@ timeline.push(exit_fullscreen);
 const block_save_data = {
   type: jsPsychPipe,
   action: "save",
-  experiment_id: "RzZhZYnwuCi2",
+  experiment_id: "2zIg9auDiJQH",
   filename: filename,
   data_string: () => jsPsych.data.get().csv(),
   on_load: function() {
@@ -1602,7 +1604,7 @@ const block_redirect = {
     <div style="text-align: center;">
       <h2>Thank you for participating!</h2>
       <p>You will be redirected to Prolific in <span id="countdown">5</span> seconds...</p>
-      <p>If you are not redirected automatically, please click <a href="https://app.prolific.com/submissions/complete?cc=${prolific_completion_code}" target="_blank">here&nbsp;<i class="fa-solid fa-external-link fa-xs"></i></a>.</p>
+      <p>If you are not redirected automatically, please click <a href="https://app.prolific.com/submissions/complete?cc=${C18V04DD}" target="_blank">here&nbsp;<i class="fa-solid fa-external-link fa-xs"></i></a>.</p>
     </div>
   `,
   questions: [],
