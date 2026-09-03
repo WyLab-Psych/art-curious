@@ -790,10 +790,11 @@ const page_image_display = {
 
 // Timeline for each trial
 const trial_timeline = [page_choice, page_image_display];
+const randomized_choice_trials = jsPsych.randomization.shuffle(choice_trials);
 
 const block_main_task = {
   timeline: trial_timeline,
-  timeline_variables: choice_trials.map(trial => ({
+  timeline_variables: randomized_choice_trials.map(trial => ({
     trial_number: trial.trial_number,
     scenario_name: trial.stimulus.scenario_name,
     painting_image: trial.stimulus.painting_image,
