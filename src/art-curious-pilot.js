@@ -60,7 +60,7 @@ const participant_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
 const study_id = jsPsych.data.getURLVariable('STUDY_ID');
 const session_id = jsPsych.data.getURLVariable('SESSION_ID');
 const filename = `${participant_id}` + "_" + `${study_id}` + "_" + `${session_id}.csv`;
-const subject_id = prolific_id ? prolific_id : `fallback_${jsPsych.randomization.randomID(10)}`;
+const subject_id = participant_id ? participant_id : `fallback_${jsPsych.randomization.randomID(10)}`;
  
 jsPsych.data.addProperties({
 participant_id: participant_id,
@@ -1603,7 +1603,7 @@ const block_redirect = {
     <div style="text-align: center;">
       <h2>Thank you for participating!</h2>
       <p>You will be redirected to Prolific in <span id="countdown">5</span> seconds...</p>
-      <p>If you are not redirected automatically, please click <a href="https://app.prolific.com/submissions/complete?cc=${C18V04DD}" target="_blank">here&nbsp;<i class="fa-solid fa-external-link fa-xs"></i></a>.</p>
+      <p>If you are not redirected automatically, please click <a href="https://app.prolific.com/submissions/complete?cc=${prolific_completion_code}" target="_blank">here&nbsp;<i class="fa-solid fa-external-link fa-xs"></i></a>.</p>
     </div>
   `,
   questions: [],
@@ -1616,7 +1616,7 @@ const block_redirect = {
       
       if (timeLeft <= 0) {
         clearInterval(timer);
-        window.location.href = "https://app.prolific.com/submissions/complete?cc=C3DK2PP3";
+        window.location.href = `https://app.prolific.com/submissions/complete?cc=${prolific_completion_code}`;
       }
     }, 1000);
   }
