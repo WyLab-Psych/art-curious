@@ -1613,7 +1613,7 @@ const participant_data_csv = () => {
         participant_data[column] = Array.isArray(value) ? value.join(', ') : value;
       });
     }
-  });
+  }); 
 
   const escape_csv_value = (value) => {
     const string_value = value === null || value === undefined ? '' : String(value);
