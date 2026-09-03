@@ -1594,7 +1594,7 @@ const block_save_data = {
     console.log("Data saved!");
   }
 };
-timeline.push(block_save_data);
+timeline.push(block_save_data); 
 
 // --- redirect to Prolific with countdown timer ---
 const block_redirect = {
