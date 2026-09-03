@@ -59,8 +59,8 @@ const prolific_completion_code = "C18V04DD";  // TODO: Replace with your actual 
 const participant_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
 const study_id = jsPsych.data.getURLVariable('STUDY_ID');
 const session_id = jsPsych.data.getURLVariable('SESSION_ID');
-const filename = `${participant_id}` + "_" + `${study_id}` + "_" + `${session_id}.csv`;
 const subject_id = participant_id ? participant_id : `fallback_${jsPsych.randomization.randomID(10)}`;
+const filename = `${subject_id}_${study_id || 'no-study'}_${session_id || jsPsych.randomization.randomID(10)}.csv`;
  
 jsPsych.data.addProperties({
 participant_id: participant_id,
@@ -1590,8 +1590,12 @@ const block_save_data = {
   experiment_id: "2zIg9auDiJQH",
   filename: filename,
   data_string: () => jsPsych.data.get().csv(),
-  on_load: function() {
-    console.log("Data saved!");
+  on_finish: function(data) {
+    if (data.success) {
+      console.log(`DataPipe saved ${filename}`);
+    } else {
+      console.error('DataPipe failed to save data:', data.result);
+    }
   }
 };
 timeline.push(block_save_data); 
