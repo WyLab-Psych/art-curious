@@ -554,9 +554,11 @@ class WyLabSurveyPlugin implements JsPsychPlugin<Info> {
         }
 
         display_element.innerHTML = "";
+        const response_data = trial.dataAsArray ? {} : final_data;
         this.jsPsych.finishTrial({ 
           rt: Math.round(performance.now() - startTime), 
-          response: final_data 
+          response: final_data,
+          ...response_data
         });
       };
     });

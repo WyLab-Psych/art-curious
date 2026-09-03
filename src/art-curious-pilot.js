@@ -1583,13 +1583,57 @@ const exit_fullscreen = {
 };
 timeline.push(exit_fullscreen);
 
+const participant_data_csv = () => {
+  const trial_data = jsPsych.data.get().values();
+  const participant_data = {};
+  const shared_fields = new Set([
+    'participant_id',
+    'study_id',
+    'session_id',
+    'consent',
+    'mcs_1', 'mcs_2', 'mcs_3', 'mcs_4', 'mcs_5',
+    'nfc_1', 'nfc_2', 'nfc_3', 'nfc_4', 'nfc_5', 'nfc_6',
+    'ec_1', 'ec_2', 'ec_3', 'ec_4', 'ec_5', 'ec_6', 'ec_7',
+    'pd_1', 'pd_2', 'pd_3', 'pd_4', 'pd_5', 'pd_6', 'pd_7',
+    'age', 'gender', 'gender_writein', 'politics', 'race_ethnicity', 'religion',
+    'attention'
+  ]);
+
+  trial_data.forEach((trial, trial_index) => {
+    Object.entries(trial).forEach(([key, value]) => {
+      if (['response', 'trial_type', 'trial_index', 'time_elapsed', 'internal_node_id', 'rt'].includes(key)) return;
+
+      const column = shared_fields.has(key) ? key : `trial_${trial_index + 1}_${key}`;
+      participant_data[column] = Array.isArray(value) ? value.join(', ') : value;
+    });
+
+    if (trial.response && typeof trial.response === 'object' && !Array.isArray(trial.response)) {
+      Object.entries(trial.response).forEach(([key, value]) => {
+        const column = `trial_${trial_index + 1}_${key}`;
+        participant_data[column] = Array.isArray(value) ? value.join(', ') : value;
+      });
+    }
+  });
+
+  const escape_csv_value = (value) => {
+    const string_value = value === null || value === undefined ? '' : String(value);
+    return /[",\n]/.test(string_value) ? `"${string_value.replace(/"/g, '""')}"` : string_value;
+  };
+  const columns = Object.keys(participant_data);
+
+  return [
+    columns.map(escape_csv_value).join(','),
+    columns.map((column) => escape_csv_value(participant_data[column])).join(',')
+  ].join('\n');
+};
+
 // DataPipe conclude data collection
 const block_save_data = {
   type: jsPsychPipe,
   action: "save",
   experiment_id: "2zIg9auDiJQH",
   filename: filename,
-  data_string: () => jsPsych.data.get().csv(),
+  data_string: participant_data_csv,
   on_finish: function(data) {
     if (data.success) {
       console.log(`DataPipe saved ${filename}`);
