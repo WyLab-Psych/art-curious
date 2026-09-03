@@ -56,11 +56,16 @@ var jsPsych = initJsPsych({
 const prolific_completion_code = "C18V04DD";  // TODO: Replace with your actual Prolific completion code
 
 // Set up filename for actual run
-const participant_id = jsPsych.data.getURLVariable('PROLIFIC_PID');
-const study_id = jsPsych.data.getURLVariable('STUDY_ID');
-const session_id = jsPsych.data.getURLVariable('SESSION_ID');
-const subject_id = participant_id ? participant_id : `fallback_${jsPsych.randomization.randomID(10)}`;
-const filename = `${subject_id}_${study_id || 'no-study'}_${session_id || jsPsych.randomization.randomID(10)}.csv`;
+const get_url_value = (name) => {
+  const value = jsPsych.data.getURLVariable(name);
+  return value && value !== 'undefined' && value !== 'null' ? value : null;
+};
+const participant_id = get_url_value('PROLIFIC_PID');
+const study_id = get_url_value('STUDY_ID');
+const session_id = get_url_value('SESSION_ID');
+const run_id = jsPsych.randomization.randomID(10);
+const subject_id = participant_id || `fallback_${run_id}`;
+const filename = `${subject_id}_${study_id || 'no-study'}_${session_id || 'no-session'}_${run_id}.csv`;
  
 jsPsych.data.addProperties({
 participant_id: participant_id,
@@ -1639,6 +1644,10 @@ const block_save_data = {
       console.log(`DataPipe saved ${filename}`);
     } else {
       console.error('DataPipe failed to save data:', data.result);
+      const error_message = data.result?.message || data.result?.error || 'Unknown DataPipe error';
+      jsPsych.abortExperiment(
+        `<p>We could not save your responses. Please do not close this page and contact the researcher with this message:</p><p>${error_message}</p>`
+      );
     }
   }
 };
