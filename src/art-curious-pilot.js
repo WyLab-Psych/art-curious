@@ -50,7 +50,7 @@ var jsPsych = initJsPsych({
   }  
 });
 
-// Set up filename for debugging
+// Set up filename for debugging.
 // const participant_id = jsPsych.randomization.randomID(10);
 // const filename = `${participant_id}.csv`;
 const prolific_completion_code = "C18V04DD";  // TODO: Replace with your actual Prolific completion code
@@ -61,12 +61,11 @@ const study_id = jsPsych.data.getURLVariable('STUDY_ID');
 const session_id = jsPsych.data.getURLVariable('SESSION_ID');
 const filename = `${participant_id}` + "_" + `${study_id}` + "_" + `${session_id}.csv`;
 const subject_id = prolific_id ? prolific_id : `fallback_${jsPsych.randomization.randomID(10)}`;
-
+ 
 jsPsych.data.addProperties({
 participant_id: participant_id,
 study_id: study_id,
-session_id: session_id
-});
+session_id: session_id});
 
 // ---------------- PAGE 1 ---------------- //
 // ENTER FULLSCREEN
