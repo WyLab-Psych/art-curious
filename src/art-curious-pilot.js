@@ -1591,7 +1591,14 @@ timeline.push(exit_fullscreen);
 
 const participant_data_csv = () => {
   const trial_data = jsPsych.data.get().values();
-  const participant_data = {};
+  const participant_data = {
+    trial_type: 'participant',
+    trial_index: 0,
+    time_elapsed: trial_data.at(-1)?.time_elapsed || '',
+    internal_node_id: 'participant',
+    rt: trial_data.reduce((total, trial) => total + (Number(trial.rt) || 0), 0),
+    response: JSON.stringify(trial_data.map((trial) => trial.response).filter(Boolean))
+  };
   const shared_fields = new Set([
     'participant_id',
     'study_id',
