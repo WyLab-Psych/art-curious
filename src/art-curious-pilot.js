@@ -6,7 +6,7 @@ dom.watch();
 
 // Import jsPsych core and CSS
 import stimuli from './stimuli/norming-targets.json' with { type: 'json' }
-import { initJsPsych } from 'jspsych';
+import { DataCollection, initJsPsych } from 'jspsych';
 import 'jspsych/css/jspsych.css';
 import './custom.css';
 
@@ -1592,6 +1592,7 @@ timeline.push(exit_fullscreen);
 const participant_data_csv = () => {
   const trial_data = jsPsych.data.get().values();
   const participant_data = {
+    subject: subject_id,
     trial_type: 'participant',
     trial_index: 0,
     time_elapsed: trial_data.at(-1)?.time_elapsed || '',
@@ -1628,16 +1629,7 @@ const participant_data_csv = () => {
     }
   }); 
 
-  const escape_csv_value = (value) => {
-    const string_value = value === null || value === undefined ? '' : String(value);
-    return /[",\n]/.test(string_value) ? `"${string_value.replace(/"/g, '""')}"` : string_value;
-  };
-  const columns = Object.keys(participant_data);
-
-  return [
-    columns.map(escape_csv_value).join(','),
-    columns.map((column) => escape_csv_value(participant_data[column])).join(',')
-  ].join('\n');
+  return new DataCollection([participant_data]).csv();
 };
 
 // DataPipe conclude data collection
