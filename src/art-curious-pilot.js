@@ -1591,53 +1591,69 @@ timeline.push(exit_fullscreen);
 
 const participant_data_csv = () => {
   const trial_data = jsPsych.data.get().values();
-  const participant_data = {
-    subject: subject_id,
-    trial_type: 'participant',
-    trial_index: 0,
-    time_elapsed: trial_data.at(-1)?.time_elapsed || '',
-    internal_node_id: 'participant',
-    rt: trial_data.reduce((total, trial) => total + (Number(trial.rt) || 0), 0),
-    response: JSON.stringify(trial_data.map((trial) => trial.response).filter(Boolean))
+  const participant_data = {};
+  const value_or_blank = (value) => Array.isArray(value) ? value.join(', ') : (value ?? '');
+  const first_value = (key) => value_or_blank(trial_data.find((trial) => trial[key] !== undefined)?.[key]);
+  const response_value = (scenario_name, key) => {
+    const trial = trial_data.find((item) => item.scenario_name === scenario_name && item.response?.[key] !== undefined);
+    return value_or_blank(trial?.response?.[key]);
   };
-  const first_value = (key) => trial_data.find((trial) => trial[key] !== undefined)?.[key] || '';
-  ['choice', 'scenario_name', 'painting_image', 'photograph_image'].forEach((key) => {
-    participant_data[key] = first_value(key);
+  const choice_value = (scenario_name) => {
+    const trial = trial_data.find((item) => item.scenario_name === scenario_name && item.choice !== undefined);
+    return value_or_blank(trial?.choice);
+  };
+  const add_column = (name, value) => { participant_data[name] = value_or_blank(value); };
+
+  // Keep these technical fields because they may be required by DataPipe validation.
+  add_column('subject', subject_id);
+  add_column('trial_type', 'participant');
+  add_column('trial_index', 0);
+  add_column('time_elapsed', trial_data.at(-1)?.time_elapsed);
+  add_column('internal_node_id', 'participant');
+  add_column('rt', trial_data.reduce((total, trial) => total + (Number(trial.rt) || 0), 0));
+
+  add_column('participant_id', participant_id);
+  add_column('study_id', study_id);
+  add_column('session_id', session_id);
+  add_column('consent', first_value('consent'));
+
+  const image_rating_fields = [
+    'image_positive', 'image_negative', 'emotionally_aroused', 'feel_upset',
+    'feel_distressed', 'feel_worried', 'feel_moved', 'feel_sympathetic',
+    'emotionally_drained', 'realistic_perspective', 'aesthetically_pleasing',
+    'reflect_moral_values', 'feel_awe', 'curious_learn_more', 'motivate_do_more',
+    'imagine_situation', 'want_see_more', 'shows_actual_situation',
+    'understand_scale', 'looking_other_way'
+  ];
+  const scenarios = ['Protest', 'Animal Killing', 'Litter in Water'];
+  const scenario_prefix = {
+    'Protest': 'protest',
+    'Animal Killing': 'animal_killing',
+    'Litter in Water': 'litter_in_water'
+  };
+
+  scenarios.forEach((scenario_name) => {
+    const prefix = scenario_prefix[scenario_name];
+    add_column(`${prefix}_choice`, choice_value(scenario_name));
+    image_rating_fields.forEach((field) => {
+      add_column(`${prefix}_${field}`, response_value(scenario_name, field));
+    });
   });
-  const shared_fields = new Set([
-    'participant_id',
-    'study_id',
-    'session_id',
-    'consent',
-    'mcs_1', 'mcs_2', 'mcs_3', 'mcs_4', 'mcs_5',
+
+  ['mcs_1', 'mcs_2', 'mcs_3', 'mcs_4', 'mcs_5',
     'nfc_1', 'nfc_2', 'nfc_3', 'nfc_4', 'nfc_5', 'nfc_6',
     'ec_1', 'ec_2', 'ec_3', 'ec_4', 'ec_5', 'ec_6', 'ec_7',
     'pd_1', 'pd_2', 'pd_3', 'pd_4', 'pd_5', 'pd_6', 'pd_7',
     'age', 'gender', 'gender_writein', 'politics', 'race_ethnicity', 'religion',
-    'attention'
-  ]);
+    'attention', 'feedback'
+  ].forEach((field) => add_column(field, first_value(field)));
 
-  trial_data.forEach((trial, trial_index) => {
-    Object.entries(trial).forEach(([key, value]) => {
-      if (['response', 'trial_type', 'trial_index', 'time_elapsed', 'internal_node_id', 'rt'].includes(key)) return;
-
-      const column = shared_fields.has(key) ? key : `trial_${trial_index + 1}_${key}`;
-      const normalized_value = Array.isArray(value) ? value.join(', ') : value;
-      participant_data[column] = normalized_value;
-      if (!shared_fields.has(key) && participant_data[key] === undefined) {
-        participant_data[key] = normalized_value;
-      }
-    });
-
-    if (trial.response && typeof trial.response === 'object' && !Array.isArray(trial.response)) {
-      Object.entries(trial.response).forEach(([key, value]) => {
-        const column = `trial_${trial_index + 1}_${key}`;
-        const normalized_value = Array.isArray(value) ? value.join(', ') : value;
-        participant_data[column] = normalized_value;
-        if (participant_data[key] === undefined) participant_data[key] = normalized_value;
-      });
-    }
-  }); 
+  // Retain common original names for DataPipe validation and backwards compatibility.
+  add_column('choice', choice_value(scenarios[0]));
+  add_column('scenario_name', scenarios[0]);
+  add_column('painting_image', first_value('painting_image'));
+  add_column('photograph_image', first_value('photograph_image'));
+  add_column('response', JSON.stringify(trial_data.map((trial) => trial.response).filter(Boolean)));
 
   return new DataCollection([participant_data]).csv();
 };
