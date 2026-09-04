@@ -1600,6 +1600,10 @@ const participant_data_csv = () => {
     rt: trial_data.reduce((total, trial) => total + (Number(trial.rt) || 0), 0),
     response: JSON.stringify(trial_data.map((trial) => trial.response).filter(Boolean))
   };
+  const first_value = (key) => trial_data.find((trial) => trial[key] !== undefined)?.[key] || '';
+  ['choice', 'scenario_name', 'painting_image', 'photograph_image'].forEach((key) => {
+    participant_data[key] = first_value(key);
+  });
   const shared_fields = new Set([
     'participant_id',
     'study_id',
@@ -1618,13 +1622,19 @@ const participant_data_csv = () => {
       if (['response', 'trial_type', 'trial_index', 'time_elapsed', 'internal_node_id', 'rt'].includes(key)) return;
 
       const column = shared_fields.has(key) ? key : `trial_${trial_index + 1}_${key}`;
-      participant_data[column] = Array.isArray(value) ? value.join(', ') : value;
+      const normalized_value = Array.isArray(value) ? value.join(', ') : value;
+      participant_data[column] = normalized_value;
+      if (!shared_fields.has(key) && participant_data[key] === undefined) {
+        participant_data[key] = normalized_value;
+      }
     });
 
     if (trial.response && typeof trial.response === 'object' && !Array.isArray(trial.response)) {
       Object.entries(trial.response).forEach(([key, value]) => {
         const column = `trial_${trial_index + 1}_${key}`;
-        participant_data[column] = Array.isArray(value) ? value.join(', ') : value;
+        const normalized_value = Array.isArray(value) ? value.join(', ') : value;
+        participant_data[column] = normalized_value;
+        if (participant_data[key] === undefined) participant_data[key] = normalized_value;
       });
     }
   }); 
