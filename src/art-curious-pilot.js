@@ -1640,6 +1640,26 @@ const participant_data_csv = () => {
     'attention', 'feedback'
   ].forEach((field) => add_column(field, first_value(field)));
 
+  // Preserve every original jsPsych field for DataPipe validation.
+  add_column('subject', subject_id);
+  add_column('trial_type', 'participant');
+  add_column('trial_index', 0);
+  add_column('time_elapsed', trial_data.at(-1)?.time_elapsed);
+  add_column('internal_node_id', 'participant');
+  add_column('rt', trial_data.reduce((total, trial) => total + (Number(trial.rt) || 0), 0));
+  add_column('response', JSON.stringify(trial_data.map((trial) => trial.response).filter(Boolean)));
+
+  trial_data.forEach((trial) => {
+    Object.entries(trial).forEach(([key, value]) => {
+      if (participant_data[key] === undefined && key !== 'response') add_column(key, value);
+    });
+    if (trial.response && typeof trial.response === 'object' && !Array.isArray(trial.response)) {
+      Object.entries(trial.response).forEach(([key, value]) => {
+        if (participant_data[key] === undefined) add_column(key, value);
+      });
+    }
+  });
+
   return new DataCollection([participant_data]).csv();
 };
 
