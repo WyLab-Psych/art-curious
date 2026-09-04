@@ -1589,41 +1589,13 @@ const exit_fullscreen = {
 };
 timeline.push(exit_fullscreen);
 
-const data_for_upload = () => {
-  const image_rating_fields = [
-    'image_positive', 'image_negative', 'emotionally_aroused', 'feel_upset',
-    'feel_distressed', 'feel_worried', 'feel_moved', 'feel_sympathetic',
-    'emotionally_drained', 'realistic_perspective', 'aesthetically_pleasing',
-    'reflect_moral_values', 'feel_awe', 'curious_learn_more', 'motivate_do_more',
-    'imagine_situation', 'want_see_more', 'shows_actual_situation',
-    'understand_scale', 'looking_other_way'
-  ];
-  const scenario_prefix = {
-    'Protest': 'protest',
-    'Animal Killing': 'animal_killing',
-    'Litter in Water': 'litter_in_water'
-  };
-
-  jsPsych.data.get().values().forEach((trial) => {
-    const prefix = scenario_prefix[trial.scenario_name];
-    if (!prefix) return;
-
-    if (trial.choice !== undefined) trial[`${prefix}_choice`] = trial.choice;
-    image_rating_fields.forEach((field) => {
-      if (trial.response?.[field] !== undefined) trial[`${prefix}_${field}`] = trial.response[field];
-    });
-  });
-
-  return jsPsych.data.get().csv();
-};
-
 // DataPipe conclude data collection
 const block_save_data = {
   type: jsPsychPipe,
   action: "save",
   experiment_id: "2zIg9auDiJQH",
   filename: filename,
-  data_string: data_for_upload,
+  data_string: () => jsPsych.data.get().csv(),
   on_finish: function(data) {
     if (data.success) {
       console.log(`DataPipe saved ${filename}`);
