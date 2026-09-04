@@ -1604,14 +1604,6 @@ const participant_data_csv = () => {
   };
   const add_column = (name, value) => { participant_data[name] = value_or_blank(value); };
 
-  // Keep these technical fields because they may be required by DataPipe validation.
-  add_column('subject', subject_id);
-  add_column('trial_type', 'participant');
-  add_column('trial_index', 0);
-  add_column('time_elapsed', trial_data.at(-1)?.time_elapsed);
-  add_column('internal_node_id', 'participant');
-  add_column('rt', trial_data.reduce((total, trial) => total + (Number(trial.rt) || 0), 0));
-
   add_column('participant_id', participant_id);
   add_column('study_id', study_id);
   add_column('session_id', session_id);
@@ -1647,13 +1639,6 @@ const participant_data_csv = () => {
     'age', 'gender', 'gender_writein', 'politics', 'race_ethnicity', 'religion',
     'attention', 'feedback'
   ].forEach((field) => add_column(field, first_value(field)));
-
-  // Retain common original names for DataPipe validation and backwards compatibility.
-  add_column('choice', choice_value(scenarios[0]));
-  add_column('scenario_name', scenarios[0]);
-  add_column('painting_image', first_value('painting_image'));
-  add_column('photograph_image', first_value('photograph_image'));
-  add_column('response', JSON.stringify(trial_data.map((trial) => trial.response).filter(Boolean)));
 
   return new DataCollection([participant_data]).csv();
 };
